@@ -22,58 +22,15 @@ Partial Class ReportsForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Panel1 = New Panel()
-        RoundedButton1 = New CustomControls.RJControls.RoundedButton()
-        RoundedButton2 = New CustomControls.RJControls.RoundedButton()
         RoundedButton4 = New CustomControls.RJControls.RoundedButton()
+        Button1 = New Button()
+        Button2 = New Button()
+        Panel1 = New Panel()
+        Panel2 = New Panel()
+        Label1 = New Label()
+        Panel1.SuspendLayout()
+        Panel2.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' Panel1
-        ' 
-        Panel1.Location = New Point(12, 77)
-        Panel1.Name = "Panel1"
-        Panel1.Size = New Size(885, 461)
-        Panel1.TabIndex = 0
-        ' 
-        ' RoundedButton1
-        ' 
-        RoundedButton1.BackColor = SystemColors.ButtonHighlight
-        RoundedButton1.BackgroundColor = SystemColors.ButtonHighlight
-        RoundedButton1.BorderColor = Color.PaleVioletRed
-        RoundedButton1.BorderRadius = 9
-        RoundedButton1.BorderSize = 0
-        RoundedButton1.FlatAppearance.BorderSize = 0
-        RoundedButton1.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(224), CByte(224), CByte(224))
-        RoundedButton1.FlatStyle = FlatStyle.Flat
-        RoundedButton1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        RoundedButton1.ForeColor = Color.Black
-        RoundedButton1.Location = New Point(-9, 12)
-        RoundedButton1.Name = "RoundedButton1"
-        RoundedButton1.Size = New Size(460, 51)
-        RoundedButton1.TabIndex = 2
-        RoundedButton1.Text = "INVENTORY REPORTS"
-        RoundedButton1.TextColor = Color.Black
-        RoundedButton1.UseVisualStyleBackColor = False
-        ' 
-        ' RoundedButton2
-        ' 
-        RoundedButton2.BackColor = SystemColors.ButtonHighlight
-        RoundedButton2.BackgroundColor = SystemColors.ButtonHighlight
-        RoundedButton2.BorderColor = Color.PaleVioletRed
-        RoundedButton2.BorderRadius = 9
-        RoundedButton2.BorderSize = 0
-        RoundedButton2.FlatAppearance.BorderSize = 0
-        RoundedButton2.FlatAppearance.MouseOverBackColor = Color.Silver
-        RoundedButton2.FlatStyle = FlatStyle.Flat
-        RoundedButton2.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        RoundedButton2.ForeColor = Color.Black
-        RoundedButton2.Location = New Point(462, 12)
-        RoundedButton2.Name = "RoundedButton2"
-        RoundedButton2.Size = New Size(456, 51)
-        RoundedButton2.TabIndex = 3
-        RoundedButton2.Text = "TRANSACTION REPORTS"
-        RoundedButton2.TextColor = Color.Black
-        RoundedButton2.UseVisualStyleBackColor = False
         ' 
         ' RoundedButton4
         ' 
@@ -87,7 +44,7 @@ Partial Class ReportsForm
         RoundedButton4.FlatStyle = FlatStyle.Flat
         RoundedButton4.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         RoundedButton4.ForeColor = Color.White
-        RoundedButton4.Location = New Point(385, 544)
+        RoundedButton4.Location = New Point(747, 546)
         RoundedButton4.Name = "RoundedButton4"
         RoundedButton4.Size = New Size(150, 40)
         RoundedButton4.TabIndex = 5
@@ -95,24 +52,82 @@ Partial Class ReportsForm
         RoundedButton4.TextColor = Color.White
         RoundedButton4.UseVisualStyleBackColor = False
         ' 
+        ' Button1
+        ' 
+        Button1.BackColor = Color.Black
+        Button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
+        Button1.FlatStyle = FlatStyle.Flat
+        Button1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Button1.ForeColor = Color.White
+        Button1.Location = New Point(182, 12)
+        Button1.Name = "Button1"
+        Button1.Size = New Size(164, 44)
+        Button1.TabIndex = 6
+        Button1.Text = "TRANSACTION REPORTS"
+        Button1.UseVisualStyleBackColor = False
+        ' 
+        ' Button2
+        ' 
+        Button2.BackColor = Color.Black
+        Button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
+        Button2.FlatStyle = FlatStyle.Flat
+        Button2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Button2.ForeColor = Color.White
+        Button2.Location = New Point(12, 12)
+        Button2.Name = "Button2"
+        Button2.Size = New Size(164, 44)
+        Button2.TabIndex = 7
+        Button2.Text = "INVENTORY REPORTS"
+        Button2.UseVisualStyleBackColor = False
+        ' 
+        ' Panel1
+        ' 
+        Panel1.Controls.Add(Panel2)
+        Panel1.Location = New Point(12, 62)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(885, 478)
+        Panel1.TabIndex = 8
+        ' 
+        ' Panel2
+        ' 
+        Panel2.Controls.Add(Label1)
+        Panel2.Location = New Point(262, 163)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(360, 152)
+        Panel2.TabIndex = 0
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Location = New Point(135, 64)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(90, 25)
+        Label1.TabIndex = 0
+        Label1.Text = "Luding..."
+        ' 
         ' ReportsForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(909, 598)
-        Controls.Add(RoundedButton4)
-        Controls.Add(RoundedButton2)
-        Controls.Add(RoundedButton1)
         Controls.Add(Panel1)
+        Controls.Add(Button2)
+        Controls.Add(Button1)
+        Controls.Add(RoundedButton4)
         FormBorderStyle = FormBorderStyle.None
         Name = "ReportsForm"
-        Text = "ReportsForm"
+        Text = "s"
+        Panel1.ResumeLayout(False)
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
         ResumeLayout(False)
     End Sub
-
-    Friend WithEvents Panel1 As Panel
-    Friend WithEvents RoundedButton1 As CustomControls.RJControls.RoundedButton
-    Friend WithEvents RoundedButton2 As CustomControls.RJControls.RoundedButton
     Friend WithEvents RoundedButton4 As CustomControls.RJControls.RoundedButton
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents Label1 As Label
 End Class

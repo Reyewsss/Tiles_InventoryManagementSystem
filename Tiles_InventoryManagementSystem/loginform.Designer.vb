@@ -22,7 +22,7 @@ Partial Class loginform
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(loginform))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(LoginForm))
         Panel1 = New Panel()
         PictureBox1 = New PictureBox()
         PictureBox2 = New PictureBox()
@@ -126,7 +126,7 @@ Partial Class loginform
         Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label2.AutoSize = True
         Label2.BackColor = Color.Transparent
-        Label2.Font = New Font("Segoe UI", 9.0F)
+        Label2.Font = New Font("Segoe UI", 9F)
         Label2.Location = New Point(619, 37)
         Label2.Margin = New Padding(2, 0, 2, 0)
         Label2.Name = "Label2"
@@ -140,7 +140,7 @@ Partial Class loginform
         Label3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         Label3.AutoSize = True
         Label3.BackColor = Color.Transparent
-        Label3.Font = New Font("Segoe UI", 9.0F)
+        Label3.Font = New Font("Segoe UI", 9F)
         Label3.Location = New Point(614, 67)
         Label3.Margin = New Padding(2, 0, 2, 0)
         Label3.Name = "Label3"
@@ -171,7 +171,7 @@ Partial Class loginform
         RoundedButton1.FlatAppearance.BorderSize = 0
         RoundedButton1.FlatAppearance.MouseOverBackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
         RoundedButton1.FlatStyle = FlatStyle.Flat
-        RoundedButton1.Font = New Font("Segoe UI", 9.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        RoundedButton1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         RoundedButton1.ForeColor = Color.White
         RoundedButton1.Location = New Point(112, 105)
         RoundedButton1.Name = "RoundedButton1"
@@ -219,6 +219,7 @@ Partial Class loginform
         TextBox2.BorderStyle = BorderStyle.None
         TextBox2.Location = New Point(32, 12)
         TextBox2.Name = "TextBox2"
+        TextBox2.PasswordChar = "*"c
         TextBox2.PlaceholderText = "Password"
         TextBox2.Size = New Size(147, 16)
         TextBox2.TabIndex = 1
@@ -254,9 +255,9 @@ Partial Class loginform
         TextBox1.Size = New Size(147, 16)
         TextBox1.TabIndex = 0
         ' 
-        ' loginform
+        ' LoginForm
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ButtonHighlight
         ClientSize = New Size(853, 408)
@@ -269,7 +270,7 @@ Partial Class loginform
         Controls.Add(Panel2)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Margin = New Padding(2)
-        Name = "loginform"
+        Name = "LoginForm"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Inventory Management System"
         Panel1.ResumeLayout(False)

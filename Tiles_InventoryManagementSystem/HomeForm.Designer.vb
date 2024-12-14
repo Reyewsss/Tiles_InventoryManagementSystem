@@ -22,83 +22,47 @@ Partial Class HomeForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        RoundedPanel1 = New RoundedPanel()
-        RoundedPanel2 = New RoundedPanel()
-        Label1 = New Label()
-        Label2 = New Label()
-        Label3 = New Label()
-        RoundedPanel1.SuspendLayout()
-        RoundedPanel2.SuspendLayout()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(HomeForm))
+        Panel6 = New Panel()
+        PictureBox3 = New PictureBox()
+        Panel6.SuspendLayout()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
-        ' RoundedPanel1
+        ' Panel6
         ' 
-        RoundedPanel1.BorderColor = Color.Black
-        RoundedPanel1.BorderThickness = 2
-        RoundedPanel1.Controls.Add(Label2)
-        RoundedPanel1.Controls.Add(Label1)
-        RoundedPanel1.Location = New Point(68, 66)
-        RoundedPanel1.Name = "RoundedPanel1"
-        RoundedPanel1.Size = New Size(368, 154)
-        RoundedPanel1.TabIndex = 0
+        Panel6.BackColor = Color.White
+        Panel6.Controls.Add(PictureBox3)
+        Panel6.Dock = DockStyle.Fill
+        Panel6.Location = New Point(0, 0)
+        Panel6.Name = "Panel6"
+        Panel6.Size = New Size(909, 598)
+        Panel6.TabIndex = 1
         ' 
-        ' RoundedPanel2
+        ' PictureBox3
         ' 
-        RoundedPanel2.BorderColor = Color.Black
-        RoundedPanel2.BorderThickness = 2
-        RoundedPanel2.Controls.Add(Label3)
-        RoundedPanel2.Location = New Point(473, 66)
-        RoundedPanel2.Name = "RoundedPanel2"
-        RoundedPanel2.Size = New Size(368, 154)
-        RoundedPanel2.TabIndex = 1
-        ' 
-        ' Label1
-        ' 
-        Label1.AutoSize = True
-        Label1.Location = New Point(138, 70)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(78, 15)
-        Label1.TabIndex = 0
-        Label1.Text = "Inventory List"
-        ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Location = New Point(145, 70)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(78, 15)
-        Label2.TabIndex = 1
-        Label2.Text = "Inventory List"
-        ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.Location = New Point(154, 70)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(88, 15)
-        Label3.TabIndex = 2
-        Label3.Text = "Transaction List"
+        PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), Image)
+        PictureBox3.Location = New Point(132, 20)
+        PictureBox3.Name = "PictureBox3"
+        PictureBox3.Size = New Size(645, 431)
+        PictureBox3.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox3.TabIndex = 0
+        PictureBox3.TabStop = False
         ' 
         ' HomeForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(909, 598)
-        Controls.Add(RoundedPanel2)
-        Controls.Add(RoundedPanel1)
+        Controls.Add(Panel6)
         FormBorderStyle = FormBorderStyle.None
         Name = "HomeForm"
         Text = "HomeForm"
-        RoundedPanel1.ResumeLayout(False)
-        RoundedPanel1.PerformLayout()
-        RoundedPanel2.ResumeLayout(False)
-        RoundedPanel2.PerformLayout()
+        Panel6.ResumeLayout(False)
+        CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents RoundedPanel1 As RoundedPanel
-    Friend WithEvents Label2 As Label
-    Friend WithEvents Label1 As Label
-    Friend WithEvents RoundedPanel2 As RoundedPanel
-    Friend WithEvents Label3 As Label
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents PictureBox3 As PictureBox
 End Class

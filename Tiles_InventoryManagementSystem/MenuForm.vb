@@ -112,18 +112,21 @@ Public Class MenuForm
     Private Sub IconButton1_Click(sender As Object, e As EventArgs) Handles IconButton1.Click
         ActivateButton(sender, Color.White)
         LoadForm(New InventoryForm())
+        Panel6.Hide()
     End Sub
 
     ' Button2 click to activate and set label text
     Private Sub IconButton2_Click(sender As Object, e As EventArgs) Handles IconButton2.Click
         ActivateButton(sender, Color.White)
         LoadForm(New OrderForm())
+        Panel6.Hide()
     End Sub
 
     ' Button3 click to activate and set label text
     Private Sub IconButton3_Click(sender As Object, e As EventArgs) Handles IconButton3.Click
         ActivateButton(sender, Color.White)
         LoadForm(New ReportsForm())
+        Panel6.Hide()
     End Sub
 
     ' Button click to show login form
@@ -135,7 +138,9 @@ Public Class MenuForm
     ' PictureBox2 click event
     Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
         ActivateButton(sender, Color.White)
-        LoadForm(New HomeForm())
+        LoadForm(New HomeForm)
+        Reset()
+        Panel6.Hide()
     End Sub
 
     Public Sub LoadForm(ByVal form As Form)
@@ -148,5 +153,9 @@ Public Class MenuForm
         Me.Panel4.Controls.Add(form)
         Me.Panel4.Tag = form
         form.Show() ' Show the new form
+    End Sub
+
+    Private Sub MenuForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class

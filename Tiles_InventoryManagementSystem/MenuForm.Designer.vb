@@ -37,6 +37,8 @@ Partial Class MenuForm
         Label1 = New Label()
         IconPictureBox1 = New FontAwesome.Sharp.IconPictureBox()
         Panel4 = New Panel()
+        Panel6 = New Panel()
+        PictureBox3 = New PictureBox()
         Timer1 = New Timer(components)
         Panel1.SuspendLayout()
         Panel5.SuspendLayout()
@@ -45,6 +47,9 @@ Partial Class MenuForm
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel3.SuspendLayout()
         CType(IconPictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        Panel4.SuspendLayout()
+        Panel6.SuspendLayout()
+        CType(PictureBox3, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
         ' 
         ' Panel1
@@ -76,7 +81,7 @@ Partial Class MenuForm
         IconButton3.IconFont = FontAwesome.Sharp.IconFont.Auto
         IconButton3.IconSize = 40
         IconButton3.ImageAlign = ContentAlignment.MiddleLeft
-        IconButton3.Location = New Point(3, 282)
+        IconButton3.Location = New Point(3, 281)
         IconButton3.Name = "IconButton3"
         IconButton3.Padding = New Padding(10, 0, 20, 0)
         IconButton3.Size = New Size(213, 50)
@@ -99,7 +104,7 @@ Partial Class MenuForm
         IconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto
         IconButton2.IconSize = 40
         IconButton2.ImageAlign = ContentAlignment.MiddleLeft
-        IconButton2.Location = New Point(3, 211)
+        IconButton2.Location = New Point(3, 213)
         IconButton2.Name = "IconButton2"
         IconButton2.Padding = New Padding(10, 0, 20, 0)
         IconButton2.Size = New Size(213, 50)
@@ -117,7 +122,7 @@ Partial Class MenuForm
         Button1.FlatStyle = FlatStyle.Flat
         Button1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Button1.ForeColor = Color.White
-        Button1.Location = New Point(27, 611)
+        Button1.Location = New Point(28, 611)
         Button1.Name = "Button1"
         Button1.Size = New Size(164, 42)
         Button1.TabIndex = 5
@@ -206,7 +211,7 @@ Partial Class MenuForm
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
-        Label1.Location = New Point(58, 23)
+        Label1.Location = New Point(58, 25)
         Label1.Name = "Label1"
         Label1.Size = New Size(47, 17)
         Label1.TabIndex = 1
@@ -217,7 +222,7 @@ Partial Class MenuForm
         IconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.House
         IconPictureBox1.IconColor = Color.White
         IconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Auto
-        IconPictureBox1.Location = New Point(20, 17)
+        IconPictureBox1.Location = New Point(20, 19)
         IconPictureBox1.Name = "IconPictureBox1"
         IconPictureBox1.Size = New Size(32, 32)
         IconPictureBox1.TabIndex = 0
@@ -225,12 +230,32 @@ Partial Class MenuForm
         ' 
         ' Panel4
         ' 
-        Panel4.BackColor = SystemColors.ButtonHighlight
+        Panel4.BackColor = Color.White
+        Panel4.Controls.Add(Panel6)
         Panel4.Dock = DockStyle.Fill
         Panel4.Location = New Point(219, 71)
         Panel4.Name = "Panel4"
         Panel4.Size = New Size(909, 598)
         Panel4.TabIndex = 2
+        ' 
+        ' Panel6
+        ' 
+        Panel6.BackColor = Color.White
+        Panel6.Controls.Add(PictureBox3)
+        Panel6.Location = New Point(213, 161)
+        Panel6.Name = "Panel6"
+        Panel6.Size = New Size(482, 276)
+        Panel6.TabIndex = 0
+        ' 
+        ' PictureBox3
+        ' 
+        PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), Image)
+        PictureBox3.Location = New Point(38, 0)
+        PictureBox3.Name = "PictureBox3"
+        PictureBox3.Size = New Size(406, 211)
+        PictureBox3.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox3.TabIndex = 0
+        PictureBox3.TabStop = False
         ' 
         ' Timer1
         ' 
@@ -257,6 +282,9 @@ Partial Class MenuForm
         Panel3.ResumeLayout(False)
         Panel3.PerformLayout()
         CType(IconPictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        Panel4.ResumeLayout(False)
+        Panel6.ResumeLayout(False)
+        CType(PictureBox3, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
@@ -274,4 +302,6 @@ Partial Class MenuForm
     Friend WithEvents IconButton2 As FontAwesome.Sharp.IconButton
     Friend WithEvents Button1 As Button
     Friend WithEvents IconButton3 As FontAwesome.Sharp.IconButton
+    Friend WithEvents Panel6 As Panel
+    Friend WithEvents PictureBox3 As PictureBox
 End Class

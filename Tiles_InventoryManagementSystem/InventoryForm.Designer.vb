@@ -29,17 +29,15 @@ Partial Class InventoryForm
         Column4 = New DataGridViewTextBoxColumn()
         Column5 = New DataGridViewTextBoxColumn()
         Column6 = New DataGridViewTextBoxColumn()
-        Column7 = New DataGridViewTextBoxColumn()
         RoundedPanel1 = New RoundedPanel()
         TextBox1 = New TextBox()
         RoundedPanel2 = New RoundedPanel()
-        TextBox3 = New TextBox()
         TextBox2 = New TextBox()
         ComboBox1 = New ComboBox()
         RoundedPanel4 = New RoundedPanel()
-        TextBox5 = New TextBox()
+        TextBox3 = New TextBox()
         RoundedPanel5 = New RoundedPanel()
-        TextBox6 = New TextBox()
+        TextBox4 = New TextBox()
         RoundedButton1 = New CustomControls.RJControls.RoundedButton()
         RoundedButton2 = New CustomControls.RJControls.RoundedButton()
         Label1 = New Label()
@@ -65,7 +63,7 @@ Partial Class InventoryForm
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = SystemColors.ButtonHighlight
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6, Column7})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6})
         DataGridView1.Location = New Point(12, 12)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -107,10 +105,10 @@ Partial Class InventoryForm
         ' Column5
         ' 
         Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column5.HeaderText = "Old Price"
+        Column5.HeaderText = "Quantity"
         Column5.Name = "Column5"
         Column5.ReadOnly = True
-        Column5.Width = 74
+        Column5.Width = 78
         ' 
         ' Column6
         ' 
@@ -118,15 +116,7 @@ Partial Class InventoryForm
         Column6.HeaderText = "Current Price"
         Column6.Name = "Column6"
         Column6.ReadOnly = True
-        Column6.Width = 93
-        ' 
-        ' Column7
-        ' 
-        Column7.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column7.HeaderText = "Quantity"
-        Column7.Name = "Column7"
-        Column7.ReadOnly = True
-        Column7.Width = 78
+        Column6.Width = 101
         ' 
         ' RoundedPanel1
         ' 
@@ -135,19 +125,18 @@ Partial Class InventoryForm
         RoundedPanel1.BorderColor = Color.Black
         RoundedPanel1.BorderThickness = 2
         RoundedPanel1.Controls.Add(TextBox1)
-        RoundedPanel1.Location = New Point(562, 66)
+        RoundedPanel1.Location = New Point(565, 66)
         RoundedPanel1.Name = "RoundedPanel1"
         RoundedPanel1.Size = New Size(124, 34)
         RoundedPanel1.TabIndex = 1
         ' 
         ' TextBox1
         ' 
-        TextBox1.BackColor = SystemColors.ButtonHighlight
         TextBox1.BorderStyle = BorderStyle.None
-        TextBox1.Location = New Point(7, 9)
+        TextBox1.Location = New Point(8, 9)
         TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(112, 16)
-        TextBox1.TabIndex = 2
+        TextBox1.Size = New Size(113, 16)
+        TextBox1.TabIndex = 17
         ' 
         ' RoundedPanel2
         ' 
@@ -155,36 +144,26 @@ Partial Class InventoryForm
         RoundedPanel2.BackColor = Color.Transparent
         RoundedPanel2.BorderColor = Color.Black
         RoundedPanel2.BorderThickness = 2
-        RoundedPanel2.Controls.Add(TextBox3)
         RoundedPanel2.Controls.Add(TextBox2)
-        RoundedPanel2.Location = New Point(562, 138)
+        RoundedPanel2.Location = New Point(565, 138)
         RoundedPanel2.Name = "RoundedPanel2"
         RoundedPanel2.Size = New Size(241, 34)
         RoundedPanel2.TabIndex = 3
         ' 
-        ' TextBox3
-        ' 
-        TextBox3.BackColor = SystemColors.ButtonHighlight
-        TextBox3.BorderStyle = BorderStyle.None
-        TextBox3.Location = New Point(9, 9)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(229, 16)
-        TextBox3.TabIndex = 3
-        ' 
         ' TextBox2
         ' 
-        TextBox2.BackColor = SystemColors.ButtonHighlight
         TextBox2.BorderStyle = BorderStyle.None
-        TextBox2.Location = New Point(9, 8)
+        TextBox2.Location = New Point(8, 9)
         TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(100, 16)
-        TextBox2.TabIndex = 2
+        TextBox2.Size = New Size(230, 16)
+        TextBox2.TabIndex = 18
         ' 
         ' ComboBox1
         ' 
         ComboBox1.Anchor = AnchorStyles.Right
         ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(562, 210)
+        ComboBox1.Items.AddRange(New Object() {"WALL TILE", "DECORE TILE", "VITRIFIED TILE"})
+        ComboBox1.Location = New Point(565, 210)
         ComboBox1.Name = "ComboBox1"
         ComboBox1.Size = New Size(181, 23)
         ComboBox1.TabIndex = 4
@@ -195,20 +174,19 @@ Partial Class InventoryForm
         RoundedPanel4.BackColor = Color.Transparent
         RoundedPanel4.BorderColor = Color.Black
         RoundedPanel4.BorderThickness = 2
-        RoundedPanel4.Controls.Add(TextBox5)
-        RoundedPanel4.Location = New Point(562, 332)
+        RoundedPanel4.Controls.Add(TextBox3)
+        RoundedPanel4.Location = New Point(565, 332)
         RoundedPanel4.Name = "RoundedPanel4"
         RoundedPanel4.Size = New Size(182, 34)
         RoundedPanel4.TabIndex = 4
         ' 
-        ' TextBox5
+        ' TextBox3
         ' 
-        TextBox5.BackColor = SystemColors.ButtonHighlight
-        TextBox5.BorderStyle = BorderStyle.None
-        TextBox5.Location = New Point(7, 9)
-        TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(172, 16)
-        TextBox5.TabIndex = 2
+        TextBox3.BorderStyle = BorderStyle.None
+        TextBox3.Location = New Point(8, 9)
+        TextBox3.Name = "TextBox3"
+        TextBox3.Size = New Size(171, 16)
+        TextBox3.TabIndex = 19
         ' 
         ' RoundedPanel5
         ' 
@@ -216,20 +194,19 @@ Partial Class InventoryForm
         RoundedPanel5.BackColor = Color.Transparent
         RoundedPanel5.BorderColor = Color.Black
         RoundedPanel5.BorderThickness = 2
-        RoundedPanel5.Controls.Add(TextBox6)
-        RoundedPanel5.Location = New Point(562, 404)
+        RoundedPanel5.Controls.Add(TextBox4)
+        RoundedPanel5.Location = New Point(565, 404)
         RoundedPanel5.Name = "RoundedPanel5"
         RoundedPanel5.Size = New Size(182, 34)
         RoundedPanel5.TabIndex = 5
         ' 
-        ' TextBox6
+        ' TextBox4
         ' 
-        TextBox6.BackColor = SystemColors.ButtonHighlight
-        TextBox6.BorderStyle = BorderStyle.None
-        TextBox6.Location = New Point(7, 9)
-        TextBox6.Name = "TextBox6"
-        TextBox6.Size = New Size(172, 16)
-        TextBox6.TabIndex = 2
+        TextBox4.BorderStyle = BorderStyle.None
+        TextBox4.Location = New Point(8, 9)
+        TextBox4.Name = "TextBox4"
+        TextBox4.Size = New Size(171, 16)
+        TextBox4.TabIndex = 20
         ' 
         ' RoundedButton1
         ' 
@@ -271,7 +248,7 @@ Partial Class InventoryForm
         RoundedButton2.Name = "RoundedButton2"
         RoundedButton2.Size = New Size(150, 40)
         RoundedButton2.TabIndex = 7
-        RoundedButton2.Text = "EDIT"
+        RoundedButton2.Text = "UPDATE"
         RoundedButton2.TextColor = Color.White
         RoundedButton2.UseVisualStyleBackColor = False
         ' 
@@ -280,7 +257,7 @@ Partial Class InventoryForm
         Label1.Anchor = AnchorStyles.Right
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(561, 37)
+        Label1.Location = New Point(564, 37)
         Label1.Name = "Label1"
         Label1.Size = New Size(78, 20)
         Label1.TabIndex = 8
@@ -291,7 +268,7 @@ Partial Class InventoryForm
         Label2.Anchor = AnchorStyles.Right
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(561, 109)
+        Label2.Location = New Point(564, 109)
         Label2.Name = "Label2"
         Label2.Size = New Size(84, 20)
         Label2.TabIndex = 9
@@ -302,7 +279,7 @@ Partial Class InventoryForm
         Label3.Anchor = AnchorStyles.Right
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(561, 181)
+        Label3.Location = New Point(564, 181)
         Label3.Name = "Label3"
         Label3.Size = New Size(69, 20)
         Label3.TabIndex = 10
@@ -313,7 +290,7 @@ Partial Class InventoryForm
         Label4.Anchor = AnchorStyles.Right
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(561, 242)
+        Label4.Location = New Point(564, 242)
         Label4.Name = "Label4"
         Label4.Size = New Size(36, 20)
         Label4.TabIndex = 11
@@ -324,7 +301,7 @@ Partial Class InventoryForm
         Label5.Anchor = AnchorStyles.Right
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label5.Location = New Point(561, 303)
+        Label5.Location = New Point(564, 303)
         Label5.Name = "Label5"
         Label5.Size = New Size(68, 20)
         Label5.TabIndex = 12
@@ -335,7 +312,7 @@ Partial Class InventoryForm
         Label6.Anchor = AnchorStyles.Right
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        Label6.Location = New Point(561, 375)
+        Label6.Location = New Point(564, 375)
         Label6.Name = "Label6"
         Label6.Size = New Size(43, 20)
         Label6.TabIndex = 13
@@ -389,7 +366,8 @@ Partial Class InventoryForm
         ' 
         ComboBox2.Anchor = AnchorStyles.Right
         ComboBox2.FormattingEnabled = True
-        ComboBox2.Location = New Point(561, 271)
+        ComboBox2.Items.AddRange(New Object() {"20x20", "45x45", "50x50", "60x60", "35x35"})
+        ComboBox2.Location = New Point(564, 271)
         ComboBox2.Name = "ComboBox2"
         ComboBox2.Size = New Size(181, 23)
         ComboBox2.TabIndex = 16
@@ -434,23 +412,11 @@ Partial Class InventoryForm
     End Sub
 
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents Column1 As DataGridViewTextBoxColumn
-    Friend WithEvents Column2 As DataGridViewTextBoxColumn
-    Friend WithEvents Column3 As DataGridViewTextBoxColumn
-    Friend WithEvents Column4 As DataGridViewTextBoxColumn
-    Friend WithEvents Column5 As DataGridViewTextBoxColumn
-    Friend WithEvents Column6 As DataGridViewTextBoxColumn
-    Friend WithEvents Column7 As DataGridViewTextBoxColumn
     Friend WithEvents RoundedPanel1 As RoundedPanel
-    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents RoundedPanel2 As RoundedPanel
-    Friend WithEvents TextBox3 As TextBox
-    Friend WithEvents TextBox2 As TextBox
     Friend WithEvents ComboBox1 As ComboBox
     Friend WithEvents RoundedPanel4 As RoundedPanel
-    Friend WithEvents TextBox5 As TextBox
     Friend WithEvents RoundedPanel5 As RoundedPanel
-    Friend WithEvents TextBox6 As TextBox
     Friend WithEvents RoundedButton1 As CustomControls.RJControls.RoundedButton
     Friend WithEvents RoundedButton2 As CustomControls.RJControls.RoundedButton
     Friend WithEvents Label1 As Label
@@ -462,4 +428,14 @@ Partial Class InventoryForm
     Friend WithEvents RoundedButton3 As CustomControls.RJControls.RoundedButton
     Friend WithEvents RoundedButton4 As CustomControls.RJControls.RoundedButton
     Friend WithEvents ComboBox2 As ComboBox
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewTextBoxColumn
+    Friend WithEvents Column3 As DataGridViewTextBoxColumn
+    Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents Column5 As DataGridViewTextBoxColumn
+    Friend WithEvents Column6 As DataGridViewTextBoxColumn
 End Class

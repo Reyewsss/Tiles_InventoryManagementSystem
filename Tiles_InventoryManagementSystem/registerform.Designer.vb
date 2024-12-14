@@ -25,13 +25,13 @@ Partial Class registerform
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(registerform))
         btn_register = New CustomControls.RJControls.RoundedButton()
         RoundedPanel2 = New RoundedPanel()
+        TextBox1 = New TextBox()
         TextBox3 = New TextBox()
         TextBox2 = New TextBox()
         RoundedPanel3 = New RoundedPanel()
         TextBox5 = New TextBox()
         Label1 = New Label()
         RoundedPanel1 = New RoundedPanel()
-        TextBox1 = New TextBox()
         RoundedPanel4 = New RoundedPanel()
         TextBox4 = New TextBox()
         Label2 = New Label()
@@ -45,7 +45,6 @@ Partial Class registerform
         TextBox7 = New TextBox()
         Label7 = New Label()
         RoundedPanel7 = New RoundedPanel()
-        TextBox8 = New TextBox()
         RoundedPanel2.SuspendLayout()
         RoundedPanel3.SuspendLayout()
         RoundedPanel1.SuspendLayout()
@@ -80,19 +79,27 @@ Partial Class registerform
         ' 
         ' RoundedPanel2
         ' 
+        RoundedPanel2.Anchor = AnchorStyles.Top
         RoundedPanel2.BorderColor = Color.Black
         RoundedPanel2.BorderThickness = 2
-        RoundedPanel2.Controls.Add(TextBox3)
-        RoundedPanel2.Controls.Add(TextBox2)
+        RoundedPanel2.Controls.Add(TextBox1)
         RoundedPanel2.Location = New Point(58, 37)
         RoundedPanel2.Name = "RoundedPanel2"
         RoundedPanel2.Size = New Size(155, 29)
         RoundedPanel2.TabIndex = 4
         ' 
+        ' TextBox1
+        ' 
+        TextBox1.BorderStyle = BorderStyle.None
+        TextBox1.Location = New Point(5, 6)
+        TextBox1.Name = "TextBox1"
+        TextBox1.Size = New Size(144, 16)
+        TextBox1.TabIndex = 2
+        ' 
         ' TextBox3
         ' 
         TextBox3.BorderStyle = BorderStyle.None
-        TextBox3.Location = New Point(7, 7)
+        TextBox3.Location = New Point(5, 6)
         TextBox3.Name = "TextBox3"
         TextBox3.Size = New Size(144, 16)
         TextBox3.TabIndex = 1
@@ -100,16 +107,17 @@ Partial Class registerform
         ' TextBox2
         ' 
         TextBox2.BorderStyle = BorderStyle.None
-        TextBox2.Location = New Point(6, 6)
+        TextBox2.Location = New Point(5, 6)
         TextBox2.Name = "TextBox2"
         TextBox2.Size = New Size(144, 16)
         TextBox2.TabIndex = 0
         ' 
         ' RoundedPanel3
         ' 
+        RoundedPanel3.Anchor = AnchorStyles.Top
         RoundedPanel3.BorderColor = Color.Black
         RoundedPanel3.BorderThickness = 2
-        RoundedPanel3.Controls.Add(TextBox5)
+        RoundedPanel3.Controls.Add(TextBox2)
         RoundedPanel3.Location = New Point(219, 37)
         RoundedPanel3.Name = "RoundedPanel3"
         RoundedPanel3.Size = New Size(155, 29)
@@ -118,13 +126,14 @@ Partial Class registerform
         ' TextBox5
         ' 
         TextBox5.BorderStyle = BorderStyle.None
-        TextBox5.Location = New Point(7, 7)
+        TextBox5.Location = New Point(6, 6)
         TextBox5.Name = "TextBox5"
-        TextBox5.Size = New Size(144, 16)
+        TextBox5.Size = New Size(302, 16)
         TextBox5.TabIndex = 11
         ' 
         ' Label1
         ' 
+        Label1.Anchor = AnchorStyles.Top
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.Location = New Point(64, 19)
@@ -135,24 +144,18 @@ Partial Class registerform
         ' 
         ' RoundedPanel1
         ' 
+        RoundedPanel1.Anchor = AnchorStyles.Top
         RoundedPanel1.BorderColor = Color.Black
         RoundedPanel1.BorderThickness = 2
-        RoundedPanel1.Controls.Add(TextBox1)
+        RoundedPanel1.Controls.Add(TextBox3)
         RoundedPanel1.Location = New Point(58, 101)
         RoundedPanel1.Name = "RoundedPanel1"
         RoundedPanel1.Size = New Size(155, 29)
         RoundedPanel1.TabIndex = 6
         ' 
-        ' TextBox1
-        ' 
-        TextBox1.BorderStyle = BorderStyle.None
-        TextBox1.Location = New Point(8, 7)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(144, 16)
-        TextBox1.TabIndex = 2
-        ' 
         ' RoundedPanel4
         ' 
+        RoundedPanel4.Anchor = AnchorStyles.Top
         RoundedPanel4.BorderColor = Color.Black
         RoundedPanel4.BorderThickness = 2
         RoundedPanel4.Controls.Add(TextBox4)
@@ -164,13 +167,14 @@ Partial Class registerform
         ' TextBox4
         ' 
         TextBox4.BorderStyle = BorderStyle.None
-        TextBox4.Location = New Point(8, 7)
+        TextBox4.Location = New Point(5, 6)
         TextBox4.Name = "TextBox4"
         TextBox4.Size = New Size(68, 16)
         TextBox4.TabIndex = 0
         ' 
         ' Label2
         ' 
+        Label2.Anchor = AnchorStyles.Top
         Label2.AutoSize = True
         Label2.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label2.Location = New Point(227, 19)
@@ -181,6 +185,7 @@ Partial Class registerform
         ' 
         ' Label3
         ' 
+        Label3.Anchor = AnchorStyles.Top
         Label3.AutoSize = True
         Label3.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label3.Location = New Point(64, 83)
@@ -191,6 +196,7 @@ Partial Class registerform
         ' 
         ' Label4
         ' 
+        Label4.Anchor = AnchorStyles.Top
         Label4.AutoSize = True
         Label4.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label4.Location = New Point(227, 83)
@@ -201,6 +207,7 @@ Partial Class registerform
         ' 
         ' Label5
         ' 
+        Label5.Anchor = AnchorStyles.Top
         Label5.AutoSize = True
         Label5.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label5.Location = New Point(66, 150)
@@ -211,9 +218,10 @@ Partial Class registerform
         ' 
         ' RoundedPanel5
         ' 
+        RoundedPanel5.Anchor = AnchorStyles.Top
         RoundedPanel5.BorderColor = Color.Black
         RoundedPanel5.BorderThickness = 2
-        RoundedPanel5.Controls.Add(TextBox6)
+        RoundedPanel5.Controls.Add(TextBox5)
         RoundedPanel5.Location = New Point(60, 168)
         RoundedPanel5.Name = "RoundedPanel5"
         RoundedPanel5.Size = New Size(314, 29)
@@ -222,13 +230,15 @@ Partial Class registerform
         ' TextBox6
         ' 
         TextBox6.BorderStyle = BorderStyle.None
-        TextBox6.Location = New Point(8, 7)
+        TextBox6.Location = New Point(6, 6)
         TextBox6.Name = "TextBox6"
+        TextBox6.PasswordChar = "*"c
         TextBox6.Size = New Size(302, 16)
         TextBox6.TabIndex = 2
         ' 
         ' Label6
         ' 
+        Label6.Anchor = AnchorStyles.Top
         Label6.AutoSize = True
         Label6.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label6.Location = New Point(68, 212)
@@ -239,9 +249,10 @@ Partial Class registerform
         ' 
         ' RoundedPanel6
         ' 
+        RoundedPanel6.Anchor = AnchorStyles.Top
         RoundedPanel6.BorderColor = Color.Black
         RoundedPanel6.BorderThickness = 2
-        RoundedPanel6.Controls.Add(TextBox7)
+        RoundedPanel6.Controls.Add(TextBox6)
         RoundedPanel6.Location = New Point(62, 230)
         RoundedPanel6.Name = "RoundedPanel6"
         RoundedPanel6.Size = New Size(314, 29)
@@ -250,13 +261,15 @@ Partial Class registerform
         ' TextBox7
         ' 
         TextBox7.BorderStyle = BorderStyle.None
-        TextBox7.Location = New Point(8, 7)
+        TextBox7.Location = New Point(6, 6)
         TextBox7.Name = "TextBox7"
+        TextBox7.PasswordChar = "*"c
         TextBox7.Size = New Size(302, 16)
         TextBox7.TabIndex = 2
         ' 
         ' Label7
         ' 
+        Label7.Anchor = AnchorStyles.Top
         Label7.AutoSize = True
         Label7.Font = New Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label7.Location = New Point(68, 277)
@@ -267,21 +280,14 @@ Partial Class registerform
         ' 
         ' RoundedPanel7
         ' 
+        RoundedPanel7.Anchor = AnchorStyles.Top
         RoundedPanel7.BorderColor = Color.Black
         RoundedPanel7.BorderThickness = 2
-        RoundedPanel7.Controls.Add(TextBox8)
+        RoundedPanel7.Controls.Add(TextBox7)
         RoundedPanel7.Location = New Point(62, 295)
         RoundedPanel7.Name = "RoundedPanel7"
         RoundedPanel7.Size = New Size(314, 29)
         RoundedPanel7.TabIndex = 15
-        ' 
-        ' TextBox8
-        ' 
-        TextBox8.BorderStyle = BorderStyle.None
-        TextBox8.Location = New Point(8, 7)
-        TextBox8.Name = "TextBox8"
-        TextBox8.Size = New Size(302, 16)
-        TextBox8.TabIndex = 2
         ' 
         ' registerform
         ' 
@@ -348,5 +354,4 @@ Partial Class registerform
     Friend WithEvents TextBox7 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents RoundedPanel7 As RoundedPanel
-    Friend WithEvents TextBox8 As TextBox
 End Class
