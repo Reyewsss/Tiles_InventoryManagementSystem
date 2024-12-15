@@ -131,8 +131,20 @@ Public Class MenuForm
 
     ' Button click to show login form
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        loginform.Show()
-        Me.Hide()
+        ' Show a confirmation dialog before signing out
+        Dim result As DialogResult = MessageBox.Show("Are you sure you want to sign out?", "Sign Out", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result = DialogResult.Yes Then
+            ' Hide the current form
+            Me.Hide()
+
+            ' Show the login form again
+            Dim loginForm As New LoginForm() ' Replace with the actual name of your login form
+            loginForm.Show()
+
+            ' Optionally, you can close the current form to prevent the user from coming back to it
+            Me.Close()
+        End If
     End Sub
 
     ' PictureBox2 click event

@@ -49,7 +49,6 @@ Partial Class InventoryForm
         Column4 = New DataGridViewTextBoxColumn()
         Column5 = New DataGridViewTextBoxColumn()
         Column6 = New DataGridViewTextBoxColumn()
-        Column7 = New DataGridViewTextBoxColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         RoundedPanel1.SuspendLayout()
         RoundedPanel2.SuspendLayout()
@@ -64,7 +63,7 @@ Partial Class InventoryForm
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         DataGridView1.BackgroundColor = SystemColors.ButtonHighlight
         DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6, Column7})
+        DataGridView1.Columns.AddRange(New DataGridViewColumn() {Column1, Column2, Column3, Column4, Column5, Column6})
         DataGridView1.Location = New Point(12, 12)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
@@ -373,13 +372,6 @@ Partial Class InventoryForm
         Column6.ReadOnly = True
         Column6.Width = 101
         ' 
-        ' Column7
-        ' 
-        Column7.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column7.HeaderText = "Old Price"
-        Column7.Name = "Column7"
-        Column7.ReadOnly = True
-        ' 
         ' InventoryForm
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -446,5 +438,4 @@ Partial Class InventoryForm
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
     Friend WithEvents Column5 As DataGridViewTextBoxColumn
     Friend WithEvents Column6 As DataGridViewTextBoxColumn
-    Friend WithEvents Column7 As DataGridViewTextBoxColumn
 End Class

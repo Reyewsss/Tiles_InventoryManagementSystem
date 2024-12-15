@@ -34,6 +34,7 @@ Partial Class ReportsForm
         ' 
         ' RoundedButton4
         ' 
+        RoundedButton4.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         RoundedButton4.BackColor = Color.SteelBlue
         RoundedButton4.BackgroundColor = Color.SteelBlue
         RoundedButton4.BorderColor = Color.PaleVioletRed
@@ -82,6 +83,7 @@ Partial Class ReportsForm
         ' 
         ' Panel1
         ' 
+        Panel1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel1.Controls.Add(Panel2)
         Panel1.Location = New Point(12, 62)
         Panel1.Name = "Panel1"
@@ -90,6 +92,7 @@ Partial Class ReportsForm
         ' 
         ' Panel2
         ' 
+        Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.Controls.Add(Label1)
         Panel2.Location = New Point(262, 163)
         Panel2.Name = "Panel2"

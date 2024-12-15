@@ -2,6 +2,25 @@
 Imports MySql.Data.MySqlClient
 
 Public Class InventoryForm
+
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If DataGridView1.CurrentRow IsNot Nothing Then
+            Dim i As Integer = DataGridView1.CurrentRow.Index
+
+            ' Populate TextBoxes and ComboBoxes with the values from the selected row
+            TextBox1.Text = DataGridView1.Item(0, i).Value?.ToString() ' Item Code
+            TextBox2.Text = DataGridView1.Item(1, i).Value?.ToString() ' Item Name
+            ComboBox1.SelectedItem = DataGridView1.Item(2, i).Value?.ToString() ' Item Type
+            ComboBox2.SelectedItem = DataGridView1.Item(3, i).Value?.ToString() ' Item Size
+            TextBox3.Text = DataGridView1.Item(4, i).Value?.ToString() ' Stock Quantity
+            TextBox4.Text = DataGridView1.Item(5, i).Value?.ToString() ' Item Price
+        End If
+
+        If e.RowIndex >= 0 Then
+            RoundedButton2.Enabled = True ' Enable the Update button
+            RoundedButton1.Enabled = False ' Disable the Add button
+        End If
+    End Sub
     ' Load form and data
     Private Sub Inventory_Form_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dbconn()
@@ -10,6 +29,17 @@ Public Class InventoryForm
         ' Set DataGridView properties
         DataGridView1.ReadOnly = True ' Initially, DataGridView is read-only
         DataGridView1.AllowUserToAddRows = False
+        RoundedButton2.Enabled = False
+        RoundedButton1.Enabled = True
+    End Sub
+
+    ' Handle the DataGridView selection change event
+    Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
+        ' Disable the Update button if no rows are selected
+        If DataGridView1.SelectedRows.Count = 0 Then
+            RoundedButton2.Enabled = False
+            RoundedButton1.Enabled = True  ' Enable the Add button
+        End If
     End Sub
 
     ' Method to load data into DataGridView
@@ -22,7 +52,7 @@ Public Class InventoryForm
             End If
 
             ' Retrieve both old and current price
-            Dim query As String = "SELECT item_code, item_description, item_type, item_size, stock_quantity, item_old_price, item_current_price FROM tbl_products"
+            Dim query As String = "SELECT item_code, item_description, item_type, item_size, stock_quantity, item_current_price FROM tbl_products"
             cmd = New MySqlCommand(query, conn)
             dr = cmd.ExecuteReader()
 
@@ -34,9 +64,8 @@ Public Class InventoryForm
                 dr("item_type").ToString(),          ' Column 3: item_type
                 dr("item_size").ToString(),          ' Column 4: item_size
                 dr("stock_quantity").ToString(),     ' Column 5: stock_quantity
-                dr("item_old_price").ToString(),     ' Column 6: item_old_price
-                dr("item_current_price").ToString()  ' Column 7: item_current_price
-            )
+                dr("item_current_price").ToString() ' Column 7: item_current_price
+)
             End While
 
         Catch ex As Exception
@@ -50,7 +79,7 @@ Public Class InventoryForm
 
 
     '---------------------------------------------------------------------------------------------------------------------
-
+    'SAVE BUTTON
     Public Sub AddProduct()
         ' Retrieve data from form controls (e.g., TextBoxes)
         Dim itemCode As String = TextBox1.Text.Trim()
@@ -58,7 +87,7 @@ Public Class InventoryForm
         Dim itemType As String = ComboBox1.Text.Trim()
         Dim size As String = ComboBox2.Text.Trim()
         Dim quantity As Integer
-        Dim OldPrice As Decimal
+        Dim price As Decimal
 
         ' Validate fields
         If String.IsNullOrWhiteSpace(itemCode) OrElse String.IsNullOrWhiteSpace(description) OrElse
@@ -73,7 +102,7 @@ Public Class InventoryForm
             Return
         End If
 
-        If Not Decimal.TryParse(TextBox4.Text.Trim(), OldPrice) OrElse OldPrice <= 0 Then
+        If Not Decimal.TryParse(TextBox4.Text.Trim(), price) OrElse price <= 0 Then
             MsgBox("Please enter a valid price.", vbExclamation)
             Return
         End If
@@ -84,31 +113,34 @@ Public Class InventoryForm
                 conn.Open()
             End If
 
-            ' SQL INSERT command to add a new product
-            cmd = New MySqlCommand("INSERT INTO tbl_products (item_code, item_description, item_size, item_type, stock_quantity, item_old_price) 
-                                VALUES (@itemCode, @description, @size, @itemType, @quantity, @price)", conn)
+            ' SQL INSERT command to add a new product and set both item_current_price and item_old_price
+            Dim query As String = "INSERT INTO tbl_products (item_code, item_description, item_size, item_type, stock_quantity, item_current_price, item_old_price) 
+                               VALUES (@itemCode, @description, @size, @itemType, @quantity, @price, @price)"
 
-            ' Add parameters to the query
-            cmd.Parameters.AddWithValue("@itemCode", itemCode)
-            cmd.Parameters.AddWithValue("@description", description)
-            cmd.Parameters.AddWithValue("@size", size)
-            cmd.Parameters.AddWithValue("@itemType", itemType)
-            cmd.Parameters.AddWithValue("@quantity", quantity)
-            cmd.Parameters.AddWithValue("@price", OldPrice)
+            ' Use a prepared statement to prevent SQL injection
+            Using cmd As New MySqlCommand(query, conn)
+                ' Add parameters to the query
+                cmd.Parameters.AddWithValue("@itemCode", itemCode)
+                cmd.Parameters.AddWithValue("@description", description)
+                cmd.Parameters.AddWithValue("@size", size)
+                cmd.Parameters.AddWithValue("@itemType", itemType)
+                cmd.Parameters.AddWithValue("@quantity", quantity)
+                cmd.Parameters.AddWithValue("@price", price)
 
-            ' Execute the query
-            Dim result = cmd.ExecuteNonQuery()
+                ' Execute the query
+                Dim result = cmd.ExecuteNonQuery()
 
-            If result > 0 Then
-                MsgBox("Product added successfully.", vbInformation)
-                InventoryLoadData() ' Refresh DataGridView with new data
-            Else
-                MsgBox("Failed to add product.", vbExclamation)
-            End If
+                ' Check if the insertion was successful
+                If result > 0 Then
+                    MsgBox("Product added successfully.", vbInformation)
+                    InventoryLoadData() ' Refresh DataGridView with new data
+                Else
+                    MsgBox("Failed to add product.", vbExclamation)
+                End If
+            End Using
 
-        Catch ex As MySqlException
-            ' Handle SQL exceptions specifically
-            MsgBox("Database error: " & ex.Message, vbExclamation)
+        Catch ex As MySqlException When ex.Number = 1062 ' Duplicate entry error code
+            MsgBox("The item code already exists. Please enter a unique item code.", vbExclamation)
         Catch ex As Exception
             ' Catch any other unexpected exceptions
             MsgBox("Error: " & ex.Message, vbExclamation)
@@ -119,6 +151,7 @@ Public Class InventoryForm
             End If
         End Try
     End Sub
+
 
     Private Sub RoundedButton1_Click(sender As Object, e As EventArgs) Handles RoundedButton1.Click
         ' Call the AddProduct method to add the product
@@ -137,20 +170,7 @@ Public Class InventoryForm
 
 
     '---------------------------------------------------------------------------------------------------------------------
-
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
-        If DataGridView1.CurrentRow IsNot Nothing Then
-            Dim i As Integer = DataGridView1.CurrentRow.Index
-
-            ' Populate TextBoxes and ComboBoxes with the values from the selected row
-            TextBox1.Text = DataGridView1.Item(0, i).Value?.ToString() ' Item Code
-            TextBox2.Text = DataGridView1.Item(1, i).Value?.ToString() ' Item Name
-            ComboBox1.SelectedItem = DataGridView1.Item(2, i).Value?.ToString() ' Item Type
-            ComboBox2.SelectedItem = DataGridView1.Item(3, i).Value?.ToString() ' Item Size
-            TextBox3.Text = DataGridView1.Item(4, i).Value?.ToString() ' Stock Quantity
-            TextBox4.Text = DataGridView1.Item(5, i).Value?.ToString() ' Item Price
-        End If
-    End Sub
+    'UPDATE BUTTON
 
     Private Sub RoundedButton2_Click(sender As Object, e As EventArgs) Handles RoundedButton2.Click
         ' Retrieve values from the form controls
@@ -178,18 +198,45 @@ Public Class InventoryForm
                 conn.Open()
             End If
 
+            ' Retrieve original data for the selected item_code
+            Dim queryCheck As String = "SELECT item_description, item_type, item_size, stock_quantity, item_current_price 
+                                     FROM tbl_products 
+                                     WHERE item_code = @itemCode"
+
+            Dim originalData As MySqlCommand = New MySqlCommand(queryCheck, conn)
+            originalData.Parameters.AddWithValue("@itemCode", itemCode)
+
+            Dim reader As MySqlDataReader = originalData.ExecuteReader()
+
+            If reader.Read() Then
+                ' Compare current form values with the original values in the database
+                If reader("item_description").ToString() = itemName AndAlso
+               reader("item_type").ToString() = itemType AndAlso
+               reader("item_size").ToString() = itemSize AndAlso
+               reader("stock_quantity").ToString() = stockQuantity.ToString() AndAlso
+               reader("item_current_price").ToString() = itemPrice.ToString() Then
+
+                    ' If no changes detected, prompt the user and exit
+                    MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    reader.Close()
+                    Return
+                End If
+            End If
+
+            reader.Close()
+
             ' Update item_old_price with the current price, and then update the current price
-            Dim query As String = "UPDATE tbl_products " &
-                              "SET item_current_price = item_old_price, " &
-                              "    item_description = @itemName, " &
-                              "    item_type = @itemType, " &
-                              "    item_size = @itemSize, " &
-                              "    stock_quantity = @stockQuantity, " &
-                              "    item_current_price = @itemPrice " &
-                              "WHERE item_code = @itemCode"
+            Dim queryUpdate As String = "UPDATE tbl_products 
+                                     SET item_old_price = item_current_price, 
+                                         item_description = @itemName, 
+                                         item_type = @itemType, 
+                                         item_size = @itemSize, 
+                                         stock_quantity = @stockQuantity, 
+                                         item_current_price = @itemPrice 
+                                     WHERE item_code = @itemCode"
 
             ' Use a prepared statement to prevent SQL injection
-            Using ps As New MySqlCommand(query, conn)
+            Using ps As New MySqlCommand(queryUpdate, conn)
                 ps.Parameters.AddWithValue("@itemCode", itemCode)
                 ps.Parameters.AddWithValue("@itemName", itemName)
                 ps.Parameters.AddWithValue("@itemType", itemType)
@@ -197,16 +244,20 @@ Public Class InventoryForm
                 ps.Parameters.AddWithValue("@stockQuantity", stockQuantity)
                 ps.Parameters.AddWithValue("@itemPrice", itemPrice)
 
-                ps.ExecuteNonQuery()
+                Dim rowsAffected As Integer = ps.ExecuteNonQuery()
+
+                If rowsAffected > 0 Then
+                    MessageBox.Show("Product updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ' Refresh DataGridView to show the updated data
+                    InventoryLoadData()
+                Else
+                    MessageBox.Show("No changes were made to the database.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
             End Using
-
-            MessageBox.Show("Product updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-            ' Refresh DataGridView to show the updated data
-            InventoryLoadData()
 
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
         Finally
             If conn.State = ConnectionState.Open Then
                 conn.Close()
@@ -215,7 +266,7 @@ Public Class InventoryForm
     End Sub
 
     '-----------------------------------------------------------------------------------------------------------
-
+    'CLEAR BUTTON
     Private Sub RoundedButton4_Click(sender As Object, e As EventArgs) Handles RoundedButton4.Click
         TextBox1.Clear()
         TextBox2.Clear()
@@ -225,10 +276,13 @@ Public Class InventoryForm
         ' Reset ComboBoxes (use SelectedIndex for ComboBoxes)
         ComboBox1.SelectedIndex = -1 ' Resets ComboBox1 to no selection
         ComboBox2.SelectedIndex = -1 ' Resets ComboBox2 to no selection
+
+        RoundedButton2.Enabled = False ' Disable Update button
+        RoundedButton1.Enabled = True  ' Enable Add button
     End Sub
 
     '-----------------------------------------------------------------------------------------------------------
-
+    'REMOVE BUTTON
     Private Sub RoundedButton3_Click(sender As Object, e As EventArgs) Handles RoundedButton3.Click
         ' Ensure a row is selected in the DataGridView
         If DataGridView1.CurrentRow Is Nothing Then

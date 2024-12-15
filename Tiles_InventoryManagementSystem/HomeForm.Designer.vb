@@ -41,6 +41,7 @@ Partial Class HomeForm
         ' 
         ' PictureBox3
         ' 
+        PictureBox3.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), Image)
         PictureBox3.Location = New Point(132, 20)
         PictureBox3.Name = "PictureBox3"
