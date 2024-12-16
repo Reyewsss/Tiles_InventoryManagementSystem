@@ -1,4 +1,6 @@
-﻿Imports FontAwesome.Sharp
+﻿Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+Imports FontAwesome.Sharp
+Imports MySql.Data.MySqlClient
 
 Public Class MenuForm
 
@@ -135,17 +137,65 @@ Public Class MenuForm
         Dim result As DialogResult = MessageBox.Show("Are you sure you want to sign out?", "Sign Out", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
         If result = DialogResult.Yes Then
+            ' Retrieve the employee_id of the logged-in user from the LoginForm
+            Dim loginForm As LoginForm = CType(Application.OpenForms("LoginForm"), LoginForm)
+            Dim employee_id As String = loginForm.LoggedInEmployeeId
+
+            ' Ensure the employee_id is not empty or invalid
+            If String.IsNullOrEmpty(employee_id) Then
+                MsgBox("Error: No logged-in user found or employee ID is missing.", vbExclamation)
+                Return
+            End If
+
+            ' Store the time when the user signs out
+            UpdateUsersSignOutTime(employee_id)
+
             ' Hide the current form
             Me.Hide()
 
             ' Show the login form again
-            Dim loginForm As New LoginForm() ' Replace with the actual name of your login form
-            loginForm.Show()
+            Dim loginFormNew As New LoginForm()
+            loginFormNew.Show()
 
             ' Optionally, you can close the current form to prevent the user from coming back to it
             Me.Close()
         End If
     End Sub
+
+    ' Function to update the user_time_out in the database when the user signs out
+    Private Sub UpdateUsersSignOutTime(employee_id As String)
+        Try
+            If conn.State = ConnectionState.Closed Then conn.Open()
+
+            ' Check if employee_id exists in the database before updating sign-out time
+            Using checkCmd As New MySqlCommand("SELECT COUNT(*) FROM tbl_user WHERE employee_id = @empid", conn)
+                checkCmd.Parameters.AddWithValue("@empid", employee_id)
+                Dim employeeCount As Integer = Convert.ToInt32(checkCmd.ExecuteScalar())
+
+                If employeeCount = 0 Then
+                    MsgBox("Error: Employee ID does not exist.", vbExclamation)
+                    Return
+                End If
+            End Using
+
+            ' Update the user_time_out field with the current time for the logged-in user
+            Using cmd As New MySqlCommand("UPDATE tbl_user SET user_time_out = NOW() WHERE employee_id = @empid", conn)
+                cmd.Parameters.AddWithValue("@empid", employee_id)
+
+                ' Check how many rows were affected
+                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+
+            End Using
+        Catch ex As Exception
+            MsgBox("Error updating sign-out time: " & ex.Message, vbExclamation)
+        Finally
+            If conn.State = ConnectionState.Open Then conn.Close()
+        End Try
+    End Sub
+
+
+
+
 
     ' PictureBox2 click event
     Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
@@ -167,7 +217,13 @@ Public Class MenuForm
         form.Show() ' Show the new form
     End Sub
 
-    Private Sub MenuForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+    Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
+        Label2.Text = Date.Now.ToString("dd-MM-yyyy hh:mm:ss")
     End Sub
+
+    Private Sub Panel3_Paint(sender As Object, e As PaintEventArgs) Handles Panel3.Paint
+        Timer2.Enabled = True
+    End Sub
+
+
 End Class

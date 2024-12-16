@@ -33,19 +33,28 @@ Public Class RegisterForm
 
         ' Validate inputs
         If String.IsNullOrWhiteSpace(employee_id) OrElse
-     String.IsNullOrWhiteSpace(password) OrElse
-     String.IsNullOrWhiteSpace(confirm_password) OrElse
-     String.IsNullOrWhiteSpace(employee_fname) OrElse
-     String.IsNullOrWhiteSpace(employee_lname) Then
+           String.IsNullOrWhiteSpace(password) OrElse
+           String.IsNullOrWhiteSpace(confirm_password) OrElse
+           String.IsNullOrWhiteSpace(employee_fname) OrElse
+           String.IsNullOrWhiteSpace(employee_lname) Then
             MsgBox("All fields are required", vbExclamation)
             Return
         End If
 
+        ' Check if the employee_id matches the required format (XX-YYYY)
+        Dim idPattern As String = "^\d{2}-\d{4}$"
+        If Not System.Text.RegularExpressions.Regex.IsMatch(employee_id, idPattern) Then
+            MsgBox("Invalid Employee ID format. It must be in the format 'XX-YYYY'.", vbExclamation)
+            Return
+        End If
+
+        ' Validate password
         If password.Length < 8 OrElse Not password.Any(Function(c) Char.IsUpper(c)) OrElse Not password.Any(Function(c) Char.IsDigit(c)) Then
             MsgBox("Password must be at least 8 characters long, include an uppercase letter, and a number.", vbExclamation)
             Return
         End If
 
+        ' Validate confirm password
         If password <> confirm_password Then
             MsgBox("Passwords do not match", vbExclamation)
             Return
@@ -61,7 +70,7 @@ Public Class RegisterForm
 
                 ' Insert the employee data into the database
                 Dim query As String = "INSERT INTO tbl_user (upassword, employee_id, employee_fname, employee_mname, employee_lname, employee_suffix) 
-                                       VALUES (@upass, @empid, @fname, @mname, @lname, @suffix)"
+                                   VALUES (@upass, @empid, @fname, @mname, @lname, @suffix)"
                 Using cmd As New MySqlCommand(query, conn)
                     cmd.Parameters.AddWithValue("@upass", encryptedPassword)
                     cmd.Parameters.AddWithValue("@empid", employee_id)
@@ -85,4 +94,7 @@ Public Class RegisterForm
             MsgBox("Unexpected error: " & ex.Message, vbExclamation)
         End Try
     End Sub
+
+
+
 End Class

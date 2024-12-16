@@ -156,6 +156,7 @@ Public Class InventoryForm
     Private Sub RoundedButton1_Click(sender As Object, e As EventArgs) Handles RoundedButton1.Click
         ' Call the AddProduct method to add the product
         AddProduct()
+        Inventory_Reports.InventoryReportsLoadData()
 
         ' Clear the text boxes
         TextBox1.Clear()

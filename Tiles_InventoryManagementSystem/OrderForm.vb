@@ -6,6 +6,10 @@ Public Class OrderForm
         dbconn()
         OrderLoadData()
 
+        DataGridView1.ReadOnly = True ' Initially, DataGridView is read-only
+        DataGridView1.AllowUserToAddRows = False
+        RoundedButton2.Enabled = False
+        RoundedButton1.Enabled = True
     End Sub
 
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
@@ -14,30 +18,72 @@ Public Class OrderForm
             ' Get the clicked row using e.RowIndex
             Dim selectedRow As DataGridViewRow = DataGridView1.Rows(e.RowIndex)
 
-            ' Retrieve data from the selected row and assign to the form controls
-            TextBox1.Text = selectedRow.Cells(0).Value?.ToString()
-            TextBox7.Text = selectedRow.Cells(1).Value?.ToString()
-            TextBox8.Text = selectedRow.Cells(2).Value?.ToString()
-            TextBox9.Text = selectedRow.Cells(3).Value?.ToString()
-            TextBox10.Text = selectedRow.Cells(4).Value?.ToString()
-            TextBox11.Text = selectedRow.Cells(5).Value?.ToString()
-            ComboBox1.SelectedItem = selectedRow.Cells(6).Value?.ToString()
-            ComboBox2.SelectedItem = selectedRow.Cells(7).Value?.ToString()
-            TextBox12.Text = selectedRow.Cells(8).Value?.ToString()
-            TextBox13.Text = selectedRow.Cells(9).Value?.ToString()
+            ' Retrieve the full customer name using column index
+            Dim fullName As String = selectedRow.Cells(0).Value?.ToString() ' Change 0 to the correct column index for the name
 
-            ' Assuming DateTimePicker1 expects a DateTime value
-            If DateTime.TryParse(selectedRow.Cells(11).Value?.ToString(), Nothing) Then
-                DateTimePicker1.Value = Convert.ToDateTime(selectedRow.Cells(11).Value)
+            ' Split the full name into parts
+            Dim nameParts As String() = fullName?.Split(" "c)
+
+            ' Initialize variables for name components
+            Dim firstName As String = ""
+            Dim middleName As String = ""
+            Dim lastName As String = ""
+            Dim suffix As String = ""
+
+            ' Assign values based on the number of parts
+            If nameParts IsNot Nothing Then
+                If nameParts.Length > 0 Then firstName = nameParts(0) ' First name
+                If nameParts.Length > 2 Then
+                    middleName = String.Join(" ", nameParts.Skip(1).Take(nameParts.Length - 2)) ' Middle name(s)
+                End If
+                If nameParts.Length > 1 Then lastName = nameParts(nameParts.Length - 1) ' Last name
+                If nameParts.Length > 3 AndAlso IsSuffix(lastName) Then
+                    suffix = lastName
+                    lastName = nameParts(nameParts.Length - 2) ' Adjust last name if suffix exists
+                End If
+            End If
+
+            ' Populate the textboxes for customer name components
+            TextBox1.Text = firstName
+            TextBox2.Text = middleName
+            TextBox5.Text = lastName
+            TextBox6.Text = suffix
+
+            ' Retrieve and assign additional data to other controls
+            TextBox7.Text = selectedRow.Cells(1).Value?.ToString() ' Address
+
+            TextBox8.Text = selectedRow.Cells(2).Value?.ToString() ' Item Code
+            TextBox9.Text = selectedRow.Cells(3).Value?.ToString() ' Item Description
+            TextBox10.Text = selectedRow.Cells(4).Value?.ToString() ' Item Code
+            TextBox11.Text = selectedRow.Cells(5).Value?.ToString() ' Item Description
+            ComboBox1.SelectedItem = selectedRow.Cells(6).Value?.ToString() ' Item type
+            ComboBox2.SelectedItem = selectedRow.Cells(7).Value?.ToString() ' Item Size
+            TextBox12.Text = selectedRow.Cells(8).Value?.ToString() ' Stock Quantity
+            TextBox13.Text = selectedRow.Cells(9).Value?.ToString() ' Price
+
+            ' Assign DateTime to DateTimePicker
+            If DateTime.TryParse(selectedRow.Cells(9).Value?.ToString(), Nothing) Then
+                DateTimePicker1.Value = Convert.ToDateTime(selectedRow.Cells(9).Value)
             End If
         End If
+
+        If e.RowIndex >= 0 Then
+            RoundedButton2.Enabled = True ' Enable the Update button
+            RoundedButton1.Enabled = False ' Disable the Add button
+        End If
     End Sub
+
+    ' Function to determine if a name part is a suffix
+    Private Function IsSuffix(part As String) As Boolean
+        Dim suffixes As String() = {"Jr.", "Sr.", "II", "III", "IV"} ' Add more suffixes if needed
+        Return suffixes.Contains(part, StringComparer.OrdinalIgnoreCase)
+    End Function
 
 
     '----------------------------------------------------------------------------------------------------
     'SAVE BUTTON
     Private Sub RoundedButton1_Click(sender As Object, e As EventArgs) Handles RoundedButton1.Click
-        ' Retrieve data from form controls
+        ' Retrieve form values
         Dim firstName As String = TextBox1.Text.Trim()
         Dim middleName As String = TextBox2.Text.Trim()
         Dim lastName As String = TextBox5.Text.Trim()
@@ -54,53 +100,44 @@ Public Class OrderForm
         Dim dateAdded As Date = DateTimePicker1.Value.Date
 
         ' Validate required fields
-        If String.IsNullOrWhiteSpace(firstName) OrElse String.IsNullOrWhiteSpace(lastName) OrElse
-    String.IsNullOrWhiteSpace(itemCode) OrElse String.IsNullOrWhiteSpace(itemName) OrElse
-    Not Integer.TryParse(TextBox12.Text.Trim(), quantity) OrElse quantity <= 0 OrElse
-    Not Decimal.TryParse(TextBox13.Text.Trim(), price) OrElse price <= 0 Then
+        If String.IsNullOrWhiteSpace(firstName) OrElse
+       String.IsNullOrWhiteSpace(lastName) OrElse
+       String.IsNullOrWhiteSpace(itemCode) OrElse
+       String.IsNullOrWhiteSpace(itemName) OrElse
+       Not Integer.TryParse(TextBox12.Text.Trim(), quantity) OrElse quantity <= 0 OrElse
+       Not Decimal.TryParse(TextBox13.Text.Trim(), price) OrElse price <= 0 Then
             MessageBox.Show("Please fill all required fields correctly.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
 
-        ' Calculate the total price
+        ' Validate phone number
+        If Not phoneNumber.StartsWith("+63") OrElse phoneNumber.Length <> 13 OrElse Not IsNumeric(phoneNumber.Substring(3)) Then
+            MessageBox.Show("Please enter a valid phone number starting with +63 and followed by 10 digits.", "Phone Number Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
+
+        ' Validate email address
+        If Not emailAddress.ToLower().EndsWith("@gmail.com") OrElse Not emailAddress.Contains("@") Then
+            MessageBox.Show("Please enter a valid email address in the format @gmail.com.", "Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return
+        End If
+
+        ' Calculate total price
         Dim totalPrice As Decimal = quantity * price
 
-        ' Declare the transaction variable outside the Try block
+        ' Transaction logic for saving order
         Dim transaction As MySqlTransaction = Nothing
 
         Try
-            ' Open the database connection if it's not already open
             If conn.State <> ConnectionState.Open Then
                 conn.Open()
             End If
 
-            ' Start a new transaction
             transaction = conn.BeginTransaction()
 
-            ' Step 1: Retrieve the current stock of the product
-            Dim queryStock As String = "SELECT stock_quantity FROM tbl_products WHERE item_code = @itemCode"
-            Dim currentStock As Integer = 0
-            Using cmdStock As New MySqlCommand(queryStock, conn, transaction)
-                cmdStock.Parameters.AddWithValue("@itemCode", itemCode)
-                ' Execute the query and read the result
-                Using drStock As MySqlDataReader = cmdStock.ExecuteReader()
-                    If drStock.HasRows Then
-                        drStock.Read()
-                        currentStock = Convert.ToInt32(drStock("stock_quantity"))
-                    End If
-                End Using
-            End Using
-
-            ' Step 2: Check if there's enough stock
-            If quantity > currentStock Then
-                MessageBox.Show("Insufficient stock. Available stock: " & currentStock, "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Return
-            End If
-
-            ' Step 3: Insert customer data into tbl_customer
+            ' Insert customer and retrieve customer_id
             Dim queryCustomer As String = "INSERT INTO tbl_customer (customer_fname, customer_mname, customer_lname, customer_suffix, customer_address, customer_phone, customer_email) " &
-                               "VALUES (@firstName, @middleName, @lastName, @suffix, @address, @phoneNumber, @emailAddress)"
-
+                                      "VALUES (@firstName, @middleName, @lastName, @suffix, @address, @phoneNumber, @emailAddress)"
             Dim customerId As Integer
             Using cmdCustomer As New MySqlCommand(queryCustomer, conn, transaction)
                 cmdCustomer.Parameters.AddWithValue("@firstName", firstName)
@@ -111,62 +148,53 @@ Public Class OrderForm
                 cmdCustomer.Parameters.AddWithValue("@phoneNumber", phoneNumber)
                 cmdCustomer.Parameters.AddWithValue("@emailAddress", emailAddress)
 
-                ' Execute the command and retrieve the customer_id (AutoIncremented)
                 cmdCustomer.ExecuteNonQuery()
-
-                ' Get the last inserted customer_id
                 customerId = Convert.ToInt32(cmdCustomer.LastInsertedId)
             End Using
 
-            ' Step 4: Insert order data into tbl_order, including the total price
-            Dim queryOrder As String = "INSERT INTO tbl_order (customer_id, item_code, item_name, item_type, item_size, item_quantity, item_price, save_date, order_total_value) " &
-                                   "VALUES (@customerId, @itemCode, @itemName, @type, @size, @quantity, @price, @dateAdded, @totalPrice)"
+            ' Ensure customerId is valid
+            If customerId = 0 Then
+                Throw New Exception("Failed to retrieve customer ID.")
+            End If
 
+            ' Save order details
+            Dim queryOrder As String = "INSERT INTO tbl_order (customer_id, item_code, item_name, item_type, item_size, item_quantity, item_price, save_date, order_total_value) " &
+                                    "VALUES (@customerId, @itemCode, @itemName, @type, @size, @quantity, @price, @dateAdded, @totalPrice)"
             Using cmdOrder As New MySqlCommand(queryOrder, conn, transaction)
-                cmdOrder.Parameters.AddWithValue("@customerId", customerId) ' Add customer_id from the first query
+                cmdOrder.Parameters.AddWithValue("@customerId", customerId)
                 cmdOrder.Parameters.AddWithValue("@itemCode", itemCode)
                 cmdOrder.Parameters.AddWithValue("@itemName", itemName)
                 cmdOrder.Parameters.AddWithValue("@type", itemType)
                 cmdOrder.Parameters.AddWithValue("@size", size)
                 cmdOrder.Parameters.AddWithValue("@quantity", quantity)
                 cmdOrder.Parameters.AddWithValue("@price", price)
-                cmdOrder.Parameters.AddWithValue("@totalPrice", totalPrice) ' Store the calculated total price
                 cmdOrder.Parameters.AddWithValue("@dateAdded", dateAdded)
+                cmdOrder.Parameters.AddWithValue("@totalPrice", totalPrice)
 
-                ' Execute the command to insert the order
                 cmdOrder.ExecuteNonQuery()
             End Using
 
-            ' Step 5: Deduct the stock from tbl_products
-            Dim queryUpdateStock As String = "UPDATE tbl_products SET stock_quantity = stock_quantity - @quantity WHERE item_code = @itemCode"
-            Using cmdUpdateStock As New MySqlCommand(queryUpdateStock, conn, transaction)
-                cmdUpdateStock.Parameters.AddWithValue("@itemCode", itemCode)
-                cmdUpdateStock.Parameters.AddWithValue("@quantity", quantity)
-                cmdUpdateStock.ExecuteNonQuery() ' Update stock
-            End Using
-
-            ' Commit the transaction if everything was successful
+            ' Commit transaction
             transaction.Commit()
 
-            ' Refresh DataGridView or other UI updates
+            ' Refresh DataGridView
             OrderLoadData()
 
-            MessageBox.Show("Data saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Order saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         Catch ex As Exception
-            ' Rollback the transaction if an error occurs
             If transaction IsNot Nothing Then
                 transaction.Rollback()
             End If
             MessageBox.Show("Error: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-
         Finally
-            ' Ensure the connection is closed
             If conn.State = ConnectionState.Open Then
                 conn.Close()
             End If
         End Try
     End Sub
+
+
 
 
     '-----------------------------------------------------------------------------------------------------------------------------
@@ -180,41 +208,41 @@ Public Class OrderForm
                 conn.Open()
             End If
 
-            ' Retrieve data from the database
-            Dim query As String = "SELECT CONCAT(c.customer_fname, ' ', " &
-                      "IFNULL(c.customer_mname, ''), ' ', " &
-                      "c.customer_lname, ' ', " &
-                      "IFNULL(c.customer_suffix, '')) AS customer_name, " &
-                      "c.customer_address, c.customer_phone, c.customer_email, " &
-                      "o.item_code, o.item_name, o.item_type, o.item_size, " &
-                      "o.item_quantity, o.item_price, o.save_date, o.order_total_value " &
-                      "FROM tbl_order o " &
-                      "INNER JOIN tbl_customer c ON o.customer_id = c.customer_id"
+            ' Correct customer name concatenation in the SQL query
+            Dim query As String = "SELECT CONCAT(c.customer_fname, ' ', 
+                            IFNULL(c.customer_mname, ''), ' ', 
+                            c.customer_lname, ' ', 
+                            IFNULL(c.customer_suffix, '')) AS customer_name, 
+                            c.customer_address, c.customer_phone, c.customer_email, 
+                            o.item_code, o.item_name, o.item_type, o.item_size, 
+                            o.item_quantity, o.item_price, o.save_date, o.order_total_value 
+                            FROM tbl_order o 
+                            INNER JOIN tbl_customer c ON o.customer_id = c.customer_id"
             cmd = New MySqlCommand(query, conn)
             dr = cmd.ExecuteReader()
 
-
-            ' Debugging: Check if data is returned
+            ' Check if data is available
             If Not dr.HasRows Then
                 MessageBox.Show("No data found.", "Data Check", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
 
-            ' Loop through the data reader and add rows to DataGridView
+            ' Populate DataGridView
             While dr.Read()
+                Dim customerName As String = dr("customer_name").ToString().Trim()
                 DataGridView1.Rows.Add(
-                    dr("customer_fname").ToString(),
-                    dr("customer_address").ToString(),
-                    dr("customer_phone").ToString(),
-                    dr("customer_email").ToString(),
-                    dr("item_code").ToString(),
-                    dr("item_name").ToString(),
-                    dr("item_type").ToString(),
-                    dr("item_size").ToString(),
-                    dr("item_quantity").ToString(),
-                    dr("item_price").ToString(),
-                    Convert.ToDateTime(dr("save_date")).ToString("MM/dd/yyyy"),
-                    If(IsDBNull(dr("order_total_value")), 0D, Convert.ToDecimal(dr("order_total_value"))) ' Handle DBNull for total price
-                )
+                customerName,
+                dr("customer_address").ToString(),
+                dr("customer_phone").ToString(),
+                dr("customer_email").ToString(),
+                dr("item_code").ToString(),
+                dr("item_name").ToString(),
+                dr("item_type").ToString(),
+                dr("item_size").ToString(),
+                dr("item_quantity").ToString(),
+                dr("item_price").ToString(),
+                Convert.ToDateTime(dr("save_date")).ToString("MM/dd/yyyy"),
+                If(IsDBNull(dr("order_total_value")), 0D, Convert.ToDecimal(dr("order_total_value")))
+            )
             End While
 
         Catch ex As Exception
@@ -225,6 +253,7 @@ Public Class OrderForm
             End If
         End Try
     End Sub
+
 
     '----------------------------------------------------------------------------------------------------------------------------------
 
@@ -269,6 +298,14 @@ Public Class OrderForm
                     ComboBox2.Text = dr("item_size").ToString() ' size
                     TextBox13.Text = dr("item_current_price").ToString() ' itemPrice
 
+                    ' Set TextBox11 and TextBox13 to ReadOnly
+                    TextBox11.ReadOnly = True
+                    TextBox13.ReadOnly = True
+
+                    ' Optionally, disable user interaction further
+                    TextBox11.Enabled = False
+                    TextBox13.Enabled = False
+
                 Else
                     ' If no data is found, clear the fields
                     TextBox11.Clear()
@@ -287,6 +324,8 @@ Public Class OrderForm
         End Try
     End Sub
 
+
+
     '----------------------------------------------------------------------------------------------------------------------------
     'CLEAR BUTTON
     Private Sub RoundedButton4_Click(sender As Object, e As EventArgs) Handles RoundedButton4.Click
@@ -303,6 +342,10 @@ Public Class OrderForm
         TextBox13.Clear()
         ComboBox1.SelectedIndex = -1
         ComboBox2.SelectedIndex = -1
+
+        RoundedButton2.Enabled = False ' Enable the Update button
+        RoundedButton1.Enabled = True ' Disable the Add button
+
     End Sub
 
     '------------------------------------------------------------------------------------------------------------------------------
@@ -325,15 +368,15 @@ Public Class OrderForm
 
         ' Validate fields
         If String.IsNullOrWhiteSpace(firstName) OrElse
-           String.IsNullOrWhiteSpace(lastName) OrElse
-           String.IsNullOrWhiteSpace(itemCode) OrElse
-           String.IsNullOrWhiteSpace(itemName) OrElse
-           String.IsNullOrWhiteSpace(itemType) OrElse
-           String.IsNullOrWhiteSpace(size) OrElse
-           Not Integer.TryParse(TextBox12.Text.Trim(), stockQuantity) OrElse
-           stockQuantity <= 0 OrElse
-           Not Decimal.TryParse(TextBox13.Text.Trim(), itemPrice) OrElse
-           itemPrice <= 0 Then
+       String.IsNullOrWhiteSpace(lastName) OrElse
+       String.IsNullOrWhiteSpace(itemCode) OrElse
+       String.IsNullOrWhiteSpace(itemName) OrElse
+       String.IsNullOrWhiteSpace(itemType) OrElse
+       String.IsNullOrWhiteSpace(size) OrElse
+       Not Integer.TryParse(TextBox12.Text.Trim(), stockQuantity) OrElse
+       stockQuantity <= 0 OrElse
+       Not Decimal.TryParse(TextBox13.Text.Trim(), itemPrice) OrElse
+       itemPrice <= 0 Then
 
             MessageBox.Show("Please fill all required fields correctly.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
@@ -345,21 +388,27 @@ Public Class OrderForm
                 conn.Open()
             End If
 
-            ' Retrieve original data for the selected item_code
-            Dim queryCheck As String = "SELECT item_description, item_type, item_size, stock_quantity, item_current_price 
-                                    FROM tbl_products 
-                                    WHERE item_code = @itemCode"
+            ' Query to retrieve product data based on itemCode
+            Dim queryCheck As String = "SELECT item_type, item_size, item_quantity
+                              FROM tbl_order
+                              WHERE item_code = @itemCode"
             Dim originalData As New MySqlCommand(queryCheck, conn)
             originalData.Parameters.AddWithValue("@itemCode", itemCode)
             Dim reader As MySqlDataReader = originalData.ExecuteReader()
 
             If reader.Read() Then
                 ' Compare current form values with the original values in the database
-                If reader("item_description").ToString() = itemName AndAlso
-                   reader("item_type").ToString() = itemType AndAlso
-                   reader("item_size").ToString() = size AndAlso
-                   reader("stock_quantity").ToString() = stockQuantity.ToString() AndAlso
-                   reader("item_current_price").ToString() = itemPrice.ToString() Then
+                If reader("item_type").ToString() = itemType AndAlso
+               reader("item_size").ToString() = size AndAlso
+               reader("item_quantity").ToString() = stockQuantity.ToString() Then
+
+                    ' Set TextBox11 and TextBox13 as read-only and disable user interaction
+                    TextBox11.ReadOnly = True
+                    TextBox13.ReadOnly = True
+
+                    ' Optionally, disable user interaction further (if required)
+                    TextBox11.Enabled = False
+                    TextBox13.Enabled = False
 
                     ' If no changes detected, prompt the user and exit
                     MessageBox.Show("No changes detected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -370,18 +419,22 @@ Public Class OrderForm
 
             reader.Close()
 
-            ' Update item_old_price with the current price, and then update the current price
-            Dim queryUpdate As String = "UPDATE tbl_products 
-                                     SET item_old_price = item_current_price, 
-                                         item_description = @itemName, 
-                                         item_type = @itemType, 
-                                         item_size = @itemSize, 
-                                         stock_quantity = @stockQuantity, 
-                                         item_current_price = @itemPrice 
-                                     WHERE item_code = @itemCode"
+            ' Update item_old_price with the current price, and then update the current price in tbl_order
+            Dim queryUpdateOrder As String = "UPDATE tbl_order 
+                                          SET item_type = @itemType, 
+                                              item_size = @itemSize, 
+                                              item_quantity = @stockQuantity
+                                          WHERE item_code = @itemCode"
+
+            ' Insert or update the customer data in tbl_customer
+            Dim queryUpdateCustomer As String = "INSERT INTO tbl_customer (customer_fname, customer_mname, customer_lname, customer_suffix, customer_address, customer_phone, customer_email, customer_name)
+                                             VALUES (@firstName, @middleName, @lastName, @suffix, @address, @phoneNumber, @emailAddress, @customerName)"
+
+            ' Concatenate full name for the customer_name
+            Dim fullName As String = firstName & " " & middleName & " " & lastName & " " & suffix
 
             ' Use a prepared statement to prevent SQL injection
-            Using ps As New MySqlCommand(queryUpdate, conn)
+            Using ps As New MySqlCommand(queryUpdateOrder, conn)
                 ps.Parameters.AddWithValue("@itemCode", itemCode)
                 ps.Parameters.AddWithValue("@itemName", itemName)
                 ps.Parameters.AddWithValue("@itemType", itemType)
@@ -392,11 +445,26 @@ Public Class OrderForm
                 Dim rowsAffected As Integer = ps.ExecuteNonQuery()
 
                 If rowsAffected > 0 Then
-                    MessageBox.Show("Product updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    ' Insert/update the customer details
+                    Using customerCmd As New MySqlCommand(queryUpdateCustomer, conn)
+                        customerCmd.Parameters.AddWithValue("@firstName", firstName)
+                        customerCmd.Parameters.AddWithValue("@middleName", middleName)
+                        customerCmd.Parameters.AddWithValue("@lastName", lastName)
+                        customerCmd.Parameters.AddWithValue("@suffix", suffix)
+                        customerCmd.Parameters.AddWithValue("@address", address)
+                        customerCmd.Parameters.AddWithValue("@phoneNumber", phoneNumber)
+                        customerCmd.Parameters.AddWithValue("@emailAddress", emailAddress)
+                        customerCmd.Parameters.AddWithValue("@customerName", fullName)
+
+                        ' Execute the customer update query
+                        customerCmd.ExecuteNonQuery()
+                    End Using
+
+                    MessageBox.Show("Order and customer details updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     ' Refresh DataGridView to show the updated data
                     OrderLoadData()
                 Else
-                    MessageBox.Show("No changes were made to the database.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("No changes were made to the order data.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
             End Using
 
@@ -410,53 +478,100 @@ Public Class OrderForm
         End Try
     End Sub
 
+
+
     '-------------------------------------------------------------------------------------------------------------------
     'REMOVE BUTTON
 
     Private Sub RoundedButton3_Click(sender As Object, e As EventArgs) Handles RoundedButton3.Click
-        If DataGridView1.SelectedRows.Count > 0 Then
-            ' Get the selected row and its itemCode (or relevant unique identifier)
-            Dim selectedRow As DataGridViewRow = DataGridView1.SelectedRows(0)
-            Dim itemCode As String = selectedRow.Cells(7).Value.ToString() ' Assuming itemCode is in column 7
+        ' Ensure that a row is selected in the DataGridView
+        If DataGridView1.CurrentRow Is Nothing Then
+            MessageBox.Show("Please select a row to delete.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
 
-            ' Confirm the deletion action
-            Dim confirmation As DialogResult = MessageBox.Show("Are you sure you want to delete this item?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+        ' Get the item_code from the selected row (assuming item_code is in column 5, adjust as needed)
+        Dim selectedRow As DataGridViewRow = DataGridView1.CurrentRow
+        Dim itemname As String = selectedRow.Cells(5).Value.ToString() ' Assuming itemCode is in column 5
+        Dim customername As String = selectedRow.Cells(0).Value.ToString() ' Assuming customer_name is in column 
 
-            If confirmation = DialogResult.Yes Then
-                Try
-                    ' Open the database connection if it's not open
-                    If conn.State <> ConnectionState.Open Then
-                        conn.Open()
-                    End If
+        ' Confirm deletion
+        Dim result As DialogResult = MessageBox.Show("Are you sure you want to delete this item?", "Delete Item", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+        If result = DialogResult.No Then
+            Return
+        End If
 
-                    ' Prepare the DELETE query
-                    Dim queryDelete As String = "DELETE FROM tbl_products WHERE item_code = @itemCode"
-                    Using deleteCommand As New MySqlCommand(queryDelete, conn)
-                        deleteCommand.Parameters.AddWithValue("@itemCode", itemCode)
-
-                        ' Execute the DELETE query
-                        Dim rowsAffected As Integer = deleteCommand.ExecuteNonQuery()
-
-                        If rowsAffected > 0 Then
-                            MessageBox.Show("Item deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-                            ' Refresh DataGridView to show updated data
-                            OrderLoadData() ' This function reloads data from the database to the DataGridView
-                        Else
-                            MessageBox.Show("Item deletion failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        End If
-                    End Using
-
-                Catch ex As Exception
-                    MessageBox.Show("Error: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Finally
-                    If conn.State = ConnectionState.Open Then
-                        conn.Close()
-                    End If
-                End Try
+        Try
+            ' Open the database connection if it's not already open
+            If conn.State <> ConnectionState.Open Then
+                conn.Open()
             End If
+
+            ' Start a transaction to ensure both deletes are executed together
+            Using transaction As MySqlTransaction = conn.BeginTransaction()
+                ' Prepare the DELETE query for tbl_order
+                Dim queryDeleteOrder As String = "DELETE FROM tbl_order WHERE item_name = @itemname"
+                Using deleteOrderCommand As New MySqlCommand(queryDeleteOrder, conn)
+                    deleteOrderCommand.Parameters.AddWithValue("@@itemname", itemname)
+                    deleteOrderCommand.Transaction = transaction
+                    Dim rowsAffectedOrder As Integer = deleteOrderCommand.ExecuteNonQuery()
+
+                End Using
+
+                ' Prepare the DELETE query for tbl_customer
+                Dim queryDeleteCustomer As String = "DELETE FROM tbl_customer WHERE customer_name = @customername"
+                Using deleteCustomerCommand As New MySqlCommand(queryDeleteCustomer, conn)
+                    deleteCustomerCommand.Parameters.AddWithValue("@customername", customername)
+                    deleteCustomerCommand.Transaction = transaction
+                    Dim rowsAffectedCustomer As Integer = deleteCustomerCommand.ExecuteNonQuery()
+                End Using
+
+                ' Commit the transaction
+                transaction.Commit()
+
+                ' Show success message
+                MessageBox.Show("Item and customer deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                ' Refresh DataGridView to show updated data
+                OrderLoadData() ' This function reloads data from the database to the DataGridView
+                ' Clear the form fields
+                TextBox1.Clear()
+                TextBox2.Clear()
+                TextBox5.Clear()
+                TextBox6.Clear()
+                TextBox7.Clear()
+                TextBox8.Clear()
+                TextBox9.Clear()
+                TextBox10.Clear()
+                TextBox11.Clear()
+                TextBox12.Clear()
+                TextBox13.Clear()
+                ComboBox1.SelectedIndex = -1
+                ComboBox2.SelectedIndex = -1
+            End Using
+
+        Catch ex As Exception
+            ' Display error message if something goes wrong
+            MessageBox.Show("Error: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Finally
+            If conn.State = ConnectionState.Open Then
+                conn.Close()
+            End If
+        End Try
+    End Sub
+
+    Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
+        ' Check if any row is selected in the DataGridView
+        If DataGridView1.SelectedRows.Count > 0 Then
+            ' If a row is selected, disable the Save button and enable the Update button
+            RoundedButton1.Enabled = False ' Disable Save button
+            RoundedButton2.Enabled = True  ' Enable Update button
         Else
-            MessageBox.Show("Please select an item to delete.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            ' If no row is selected, enable the Save button and disable the Update button
+            RoundedButton1.Enabled = True  ' Enable Save button
+            RoundedButton2.Enabled = False ' Disable Update button
         End If
     End Sub
+
+
 End Class

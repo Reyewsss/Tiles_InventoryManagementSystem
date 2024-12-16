@@ -34,12 +34,15 @@ Partial Class MenuForm
         Panel2 = New Panel()
         PictureBox1 = New PictureBox()
         Panel3 = New Panel()
+        Label3 = New Label()
+        Label2 = New Label()
         Label1 = New Label()
         IconPictureBox1 = New FontAwesome.Sharp.IconPictureBox()
         Panel4 = New Panel()
         Panel6 = New Panel()
         PictureBox3 = New PictureBox()
         Timer1 = New Timer(components)
+        Timer2 = New Timer(components)
         Panel1.SuspendLayout()
         Panel5.SuspendLayout()
         CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
@@ -198,6 +201,8 @@ Partial Class MenuForm
         ' Panel3
         ' 
         Panel3.BackColor = Color.Black
+        Panel3.Controls.Add(Label3)
+        Panel3.Controls.Add(Label2)
         Panel3.Controls.Add(Label1)
         Panel3.Controls.Add(IconPictureBox1)
         Panel3.Dock = DockStyle.Top
@@ -205,6 +210,30 @@ Partial Class MenuForm
         Panel3.Name = "Panel3"
         Panel3.Size = New Size(909, 71)
         Panel3.TabIndex = 1
+        ' 
+        ' Label3
+        ' 
+        Label3.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label3.ForeColor = Color.White
+        Label3.Location = New Point(611, 25)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(39, 17)
+        Label3.TabIndex = 3
+        Label3.Text = "USER"
+        ' 
+        ' Label2
+        ' 
+        Label2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label2.ForeColor = Color.White
+        Label2.Location = New Point(754, 25)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(84, 17)
+        Label2.TabIndex = 2
+        Label2.Text = "DATE   TIME"
         ' 
         ' Label1
         ' 
@@ -240,6 +269,7 @@ Partial Class MenuForm
         ' 
         ' Panel6
         ' 
+        Panel6.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel6.BackColor = Color.White
         Panel6.Controls.Add(PictureBox3)
         Panel6.Location = New Point(213, 161)
@@ -249,6 +279,7 @@ Partial Class MenuForm
         ' 
         ' PictureBox3
         ' 
+        PictureBox3.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), Image)
         PictureBox3.Location = New Point(38, 0)
         PictureBox3.Name = "PictureBox3"
@@ -260,6 +291,9 @@ Partial Class MenuForm
         ' Timer1
         ' 
         Timer1.Interval = 10
+        ' 
+        ' Timer2
+        ' 
         ' 
         ' MenuForm
         ' 
@@ -304,4 +338,7 @@ Partial Class MenuForm
     Friend WithEvents IconButton3 As FontAwesome.Sharp.IconButton
     Friend WithEvents Panel6 As Panel
     Friend WithEvents PictureBox3 As PictureBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Timer2 As Timer
+    Friend WithEvents Label3 As Label
 End Class

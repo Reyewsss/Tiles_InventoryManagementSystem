@@ -23,6 +23,12 @@ Partial Class InventoryForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         DataGridView1 = New DataGridView()
+        Column1 = New DataGridViewTextBoxColumn()
+        Column2 = New DataGridViewTextBoxColumn()
+        Column3 = New DataGridViewTextBoxColumn()
+        Column4 = New DataGridViewTextBoxColumn()
+        Column5 = New DataGridViewTextBoxColumn()
+        Column6 = New DataGridViewTextBoxColumn()
         RoundedPanel1 = New RoundedPanel()
         TextBox1 = New TextBox()
         RoundedPanel2 = New RoundedPanel()
@@ -43,12 +49,6 @@ Partial Class InventoryForm
         RoundedButton3 = New CustomControls.RJControls.RoundedButton()
         RoundedButton4 = New CustomControls.RJControls.RoundedButton()
         ComboBox2 = New ComboBox()
-        Column1 = New DataGridViewTextBoxColumn()
-        Column2 = New DataGridViewTextBoxColumn()
-        Column3 = New DataGridViewTextBoxColumn()
-        Column4 = New DataGridViewTextBoxColumn()
-        Column5 = New DataGridViewTextBoxColumn()
-        Column6 = New DataGridViewTextBoxColumn()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         RoundedPanel1.SuspendLayout()
         RoundedPanel2.SuspendLayout()
@@ -70,6 +70,53 @@ Partial Class InventoryForm
         DataGridView1.RowHeadersVisible = False
         DataGridView1.Size = New Size(549, 574)
         DataGridView1.TabIndex = 0
+        ' 
+        ' Column1
+        ' 
+        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column1.HeaderText = "Item Code"
+        Column1.Name = "Column1"
+        Column1.ReadOnly = True
+        Column1.Width = 87
+        ' 
+        ' Column2
+        ' 
+        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
+        Column2.HeaderText = "Item Name"
+        Column2.Name = "Column2"
+        Column2.ReadOnly = True
+        ' 
+        ' Column3
+        ' 
+        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column3.HeaderText = "Type"
+        Column3.Name = "Column3"
+        Column3.ReadOnly = True
+        Column3.Width = 56
+        ' 
+        ' Column4
+        ' 
+        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column4.HeaderText = "Size"
+        Column4.Name = "Column4"
+        Column4.ReadOnly = True
+        Column4.Width = 52
+        ' 
+        ' Column5
+        ' 
+        Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column5.HeaderText = "Quantity"
+        Column5.Name = "Column5"
+        Column5.ReadOnly = True
+        Column5.Width = 78
+        ' 
+        ' Column6
+        ' 
+        Column6.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+        Column6.HeaderText = "Current Price"
+        Column6.Name = "Column6"
+        Column6.ReadOnly = True
+        Column6.Width = 101
         ' 
         ' RoundedPanel1
         ' 
@@ -324,53 +371,6 @@ Partial Class InventoryForm
         ComboBox2.Name = "ComboBox2"
         ComboBox2.Size = New Size(181, 23)
         ComboBox2.TabIndex = 16
-        ' 
-        ' Column1
-        ' 
-        Column1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column1.HeaderText = "Item Code"
-        Column1.Name = "Column1"
-        Column1.ReadOnly = True
-        Column1.Width = 87
-        ' 
-        ' Column2
-        ' 
-        Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-        Column2.HeaderText = "Item Name"
-        Column2.Name = "Column2"
-        Column2.ReadOnly = True
-        ' 
-        ' Column3
-        ' 
-        Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column3.HeaderText = "Type"
-        Column3.Name = "Column3"
-        Column3.ReadOnly = True
-        Column3.Width = 56
-        ' 
-        ' Column4
-        ' 
-        Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column4.HeaderText = "Size"
-        Column4.Name = "Column4"
-        Column4.ReadOnly = True
-        Column4.Width = 52
-        ' 
-        ' Column5
-        ' 
-        Column5.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column5.HeaderText = "Quantity"
-        Column5.Name = "Column5"
-        Column5.ReadOnly = True
-        Column5.Width = 78
-        ' 
-        ' Column6
-        ' 
-        Column6.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
-        Column6.HeaderText = "Current Price"
-        Column6.Name = "Column6"
-        Column6.ReadOnly = True
-        Column6.Width = 101
         ' 
         ' InventoryForm
         ' 

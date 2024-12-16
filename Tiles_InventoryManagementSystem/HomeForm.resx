@@ -125,7 +125,7 @@
         BMgWSYewNUDsJAjbBsQuLykoAbIDQOyikCBnIDsFyNZIR2InIbGTC4pA6nuAbJvcnNJkhLsZeFLzQoOB
         NAcQyzAUMwQxuDM4gfwPUZK/iIHB4isDA/MEhFjSTAaG7a0MDBK3EGIqCxgY+FsYGLadR4ghwqQgsSgR
         LMQCxExpaQwMn5YzMPBGMjAIX2Bg4IqGBQQOtymA3ebOkA+E6Qw5DKlAEU+GPIZkBj0gy4jBgMGQwQwA
-        ptY/P1N/5B4AAAAJcEhZcwAACxAAAAsQAa0jvXUAAP6vSURBVHhe7P11fFTn3rYP37J3KU5wDRAkQHB3
+        ptY/P1N/5B4AAAAJcEhZcwAACwwAAAsMAT9AIsgAAP6vSURBVHhe7P11fFTn3rYP37J3KU5wDRAkQHB3
         d4q7O5RCi7u7tkCLQwjuXlyCu7sETQgEgqZAae/f87zvkfmm655N997PlkrSOY8/1mfNZOaS87omn+uY
         tWat//j/CSGEEEIIIYQQHoAEWAghhBBCCCGERyABFkIIIYQQQgjhEUiAhRBCCCGEEEJ4BBJgIYQQQggh
         hBAegQRYCCGEEEIIIYRHIAEWQgghhBBCCOERSICFEEIIIYQQQngEEmAhhBBCCCGEEB6BBFgIIYQQQggh
@@ -3680,4 +3680,7 @@
         RU5ErkJggg==
 </value>
   </data>
+  <metadata name="Timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

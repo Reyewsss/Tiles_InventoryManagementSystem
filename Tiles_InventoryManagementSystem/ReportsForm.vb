@@ -1,4 +1,10 @@
-﻿Public Class ReportsForm
+﻿Imports System.Drawing.Printing
+Imports System.IO
+Imports System.Reflection.Metadata
+
+
+Public Class ReportsForm
+    ' Function to load forms dynamically into the panel
     Public Sub LoadForm(ByVal form As Form)
         If Me.Panel1.Controls.Count > 0 Then
             Me.Panel1.Controls.RemoveAt(0) ' Remove existing control
@@ -13,11 +19,10 @@
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         LoadForm(New Inventory_Reports())
-        Panel2.Hide()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         LoadForm(New Transaction_Reports())
-        Panel2.Hide()
     End Sub
+
 End Class
